@@ -1,0 +1,130 @@
+### ========================================
+### SUPER RADIO API - REST Client Tests
+### ========================================
+### Archivo principal con flujo completo de pruebas
+### Para archivos específicos, ver:
+### - src/features/user/user.http
+### - src/features/program/program.http
+### - src/features/schedule/schedule.http
+
+### Variables
+@baseUrl = http://localhost:3000
+
+### ========================================
+### WORKFLOW COMPLETO
+### ========================================
+
+### PASO 1: Health Check
+GET {{baseUrl}}/health
+
+### PASO 2: Login y obtener token
+# @name login
+POST {{baseUrl}}/api/users/login
+Content-Type: application/json
+
+{
+  "email": "admin@superradio.com",
+  "password": "password123"
+}
+
+### PASO 3: Guardar token (copiar del response anterior)
+@token = {{login.response.body.data.token}}
+
+### PASO 4: Crear un programa
+# @name newProgram
+POST {{baseUrl}}/api/programs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Mi Programa de Prueba",
+  "description": "Descripción de prueba"
+}
+
+### PASO 5: Obtener ID del programa creado
+@programId = {{newProgram.response.body.data.program.id}}
+
+### PASO 6: Listar todos los programas
+GET {{baseUrl}}/api/programs
+Authorization: Bearer {{token}}
+
+### PASO 7: Crear horario para el programa
+# @name newSchedule
+POST {{baseUrl}}/api/schedule
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "programId": "{{programId}}",
+  "dayOfWeek": 1,
+  "startTime": "14:00",
+  "endTime": "16:00"
+}
+
+### PASO 8: Obtener ID del schedule creado
+@scheduleId = {{newSchedule.response.body.data.schedule.id}}
+
+### PASO 9: Ver la programación semanal (Ruta pública - no requiere token)
+GET {{baseUrl}}/api/schedule/weekly
+
+### PASO 10: Listar todos los horarios
+GET {{baseUrl}}/api/schedule
+Authorization: Bearer {{token}}
+
+### PASO 11: Actualizar el horario
+PUT {{baseUrl}}/api/schedule/{{scheduleId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "startTime": "15:00",
+  "endTime": "17:00"
+}
+
+### PASO 12: Actualizar el programa
+PUT {{baseUrl}}/api/programs/{{programId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Programa Actualizado",
+  "description": "Nueva descripción"
+}
+
+### PASO 13: Eliminar el horario
+DELETE {{baseUrl}}/api/schedule/{{scheduleId}}
+Authorization: Bearer {{token}}
+
+### PASO 14: Eliminar el programa
+DELETE {{baseUrl}}/api/programs/{{programId}}
+Authorization: Bearer {{token}}
+
+### ========================================
+### QUICK TESTS - ENDPOINTS PRINCIPALES
+### ========================================
+
+### Ver perfil de usuario
+GET {{baseUrl}}/api/users/profile
+Authorization: Bearer {{token}}
+
+### Registrar nuevo usuario
+POST {{baseUrl}}/api/users/register
+Content-Type: application/json
+
+{
+  "email": "test{{$randomInt}}@superradio.com",
+  "password": "testpass123"
+}
+
+### Obtener programa específico (usar un ID real del seed)
+GET {{baseUrl}}/api/programs/e84ff159-1e55-4267-8798-8e28300cddd4
+Authorization: Bearer {{token}}
+
+### ========================================
+### NOTAS
+### ========================================
+# 1. Instala la extensión "REST Client" en VS Code
+# 2. Usa Ctrl+Alt+R (o Cmd+Alt+R en Mac) para ejecutar requests
+# 3. Las variables con @name permiten capturar responses
+# 4. Los valores {{variable}} se sustituyen automáticamente
+# 5. Credenciales por defecto: admin@superradio.com / password123

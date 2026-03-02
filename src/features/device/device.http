@@ -1,0 +1,30 @@
+### Variables
+@baseUrl = http://localhost:3000
+@maragataId = be9e1c72-6c27-438e-9deb-6ef0207c365a
+
+### ========================================
+### DEVICE ENDPOINTS
+### ========================================
+
+### 1. Post device (PUBLIC - No auth required)
+POST {{baseUrl}}/api/devices/{{maragataId}}
+Content-Type: application/json
+
+{
+  "fcmToken": "your_fcm_token_here"
+}
+
+### 2. Send push notification to ALL devices of a station
+POST {{baseUrl}}/api/devices/{{maragataId}}/notify
+Content-Type: application/json
+
+{
+  "title": "17.54",
+  "body": "Hoy tenemos un programa especial en vivo. ¡No te lo pierdas!",
+  "image": "https://firebase.google.com/static/images/brand-guidelines/logo-monochrome.png",
+  "data": {
+    "screen": "live",
+    "programId": "abc123",
+    "action": "open_player"
+  }
+}

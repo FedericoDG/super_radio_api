@@ -1,0 +1,1 @@
+export const MARAGATA_USER_ID = '6fbe43e9-1630-4493-8425-011fb4c074ca';

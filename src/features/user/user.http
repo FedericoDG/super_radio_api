@@ -1,0 +1,41 @@
+### Variables
+@baseUrl = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+### Health Check
+GET {{baseUrl}}/health
+
+### ========================================
+### USER ENDPOINTS
+### ========================================
+
+### 1. Register new user
+# POST {{baseUrl}}/api/users/register
+# Content-Type: application/json
+
+# {
+#   "email": "newuser@superradio.com",
+#   "password": "securepass123"
+# }
+
+### 2. Login (obtener token)
+# @name login
+POST {{baseUrl}}/api/users/login
+Content-Type: application/json
+
+{
+  "email": "admin@superradio.com",
+  "password": "password123"
+}
+
+### 3. Get Profile (requires token)
+GET {{baseUrl}}/api/users/profile
+Authorization: Bearer {{token}}
+
+### ========================================
+### TEST USERS AVAILABLE
+### ========================================
+# Email: admin@superradio.com - Password: password123
+# Email: user1@superradio.com - Password: password123
+# Email: user2@superradio.com - Password: password123
+# Email: test@superradio.com - Password: password123

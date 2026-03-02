@@ -14,6 +14,12 @@ export interface LoginDTO {
   password: string;
 }
 
+export interface ChangePasswordDTO {
+  userId: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
 export class UserService {
   async login(data: LoginDTO) {
     const user = await prisma.user.findUnique({
@@ -60,6 +66,39 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async changePassword(data: ChangePasswordDTO) {
+    const user = await prisma.user.findUnique({
+      where: { id: data.userId },
+      select: {
+        id: true,
+        password: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError('User not found', 404);
+    }
+
+    const isCurrentPasswordValid = await bcrypt.compare(data.currentPassword, user.password);
+
+    if (!isCurrentPasswordValid) {
+      throw new AppError('Current password is incorrect', 401);
+    }
+
+    const hashedPassword = await bcrypt.hash(data.newPassword, 12);
+
+    await prisma.user.update({
+      where: { id: data.userId },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return {
+      message: 'Password updated successfully. Please login again.',
+    };
   }
 
   private generateToken(id: string, email: string): string {

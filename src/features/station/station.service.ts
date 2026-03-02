@@ -24,10 +24,6 @@ export interface UpdateStationDto {
 }
 
 export class StationService {
-  /**
-   * Obtiene la información completa de la estación única,
-   * incluyendo la programación semanal ordenada por día.
-   */
   async getStation(stationId: string) {
     const station = await prisma.station.findUnique({
       where: { id: stationId },
@@ -146,9 +142,6 @@ export class StationService {
     };
   }
 
-  /**
-   * Actualiza la información de la estación única.
-   */
   async updateStation(stationId: string, data: UpdateStationDto) {
     const station = await prisma.station.findUnique({
       where: { id: stationId },

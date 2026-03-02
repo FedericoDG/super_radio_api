@@ -96,66 +96,6 @@ export class ProgramController {
       next(error);
     }
   }
-
-  async getLiveProgram(req: AuthRequest, res: Response, next: NextFunction) {
-    try {
-      const stationId = req.params.stationId as string;
-      const dateParam = req.query.date as string | undefined;
-      const date = dateParam ? new Date(dateParam) : undefined;
-
-      // Validar que la fecha sea válida si se proporciona
-      if (dateParam && isNaN(date!.getTime())) {
-        throw new AppError(
-          'Invalid date format. Use ISO 8601 format (e.g., 2026-02-14T21:35:00)',
-          400
-        );
-      }
-
-      const program = await programService.getLiveProgram(stationId, date);
-
-      if (!program) {
-        return res.status(200).json({
-          status: 'success',
-          data: { program: null },
-          message: 'No program is currently live',
-        });
-      }
-
-      res.status(200).json({
-        status: 'success',
-        data: { program },
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async getLiveProgramMinimal(req: AuthRequest, res: Response, next: NextFunction) {
-    try {
-      const stationId = req.params.stationId as string;
-      const dateParam = req.query.date as string | undefined;
-      const date = dateParam ? new Date(dateParam) : undefined;
-
-      if (dateParam && isNaN(date!.getTime())) {
-        throw new AppError(
-          'Invalid date format. Use ISO 8601 format (e.g., 2026-02-14T21:35:00)',
-          400
-        );
-      }
-
-      const program = await programService.getLiveProgramMinimal(stationId, date);
-
-      if (!program) {
-        return res.status(200).json({
-          program: null,
-        });
-      }
-
-      res.status(200).json(program);
-    } catch (error) {
-      next(error);
-    }
-  }
 }
 
 export const programController = new ProgramController();

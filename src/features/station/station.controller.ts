@@ -3,10 +3,6 @@ import { AuthRequest } from '../../middleware/auth';
 import { stationService } from './station.service';
 
 export class StationController {
-  /**
-   * GET /api/station/:stationId
-   * Obtiene la información completa de la estación única con la programación semanal.
-   */
   async getStation(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const stationId = req.params.stationId as string;
@@ -21,10 +17,6 @@ export class StationController {
     }
   }
 
-  /**
-   * PUT /api/station/:stationId
-   * Actualiza la información de la estación única.
-   */
   async updateStation(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const stationId = req.params.stationId as string;

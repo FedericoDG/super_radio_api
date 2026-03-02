@@ -4,12 +4,6 @@ import { programController } from './program.controller';
 
 const router = Router({ mergeParams: true });
 
-// Rutas públicas para obtener el programa en vivo
-router.get('/live/minimal', (req, res, next) =>
-  programController.getLiveProgramMinimal(req, res, next)
-);
-router.get('/live', (req, res, next) => programController.getLiveProgram(req, res, next));
-
 // Todas las demás rutas están protegidas
 router.use(authenticate);
 

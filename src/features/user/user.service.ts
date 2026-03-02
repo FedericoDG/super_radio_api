@@ -15,37 +15,6 @@ export interface LoginDTO {
 }
 
 export class UserService {
-  async register(data: RegisterDTO) {
-    const existingUser = await prisma.user.findUnique({
-      where: { email: data.email },
-    });
-
-    if (existingUser) {
-      throw new AppError('Email already registered', 400);
-    }
-
-    const hashedPassword = await bcrypt.hash(data.password, 12);
-
-    const user = await prisma.user.create({
-      data: {
-        email: data.email,
-        password: hashedPassword,
-      },
-      select: {
-        id: true,
-        email: true,
-        createdAt: true,
-      },
-    });
-
-    const token = this.generateToken(user.id, user.email);
-
-    return {
-      user,
-      token,
-    };
-  }
-
   async login(data: LoginDTO) {
     const user = await prisma.user.findUnique({
       where: { email: data.email },

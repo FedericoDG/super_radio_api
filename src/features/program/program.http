@@ -5,31 +5,10 @@
 @programId = clx...
 
 ### ========================================
-### PROGRAM ENDPOINTS (PUBLIC)
-### ========================================
-
-### 1. Get Live Program - MINIMAL (Current) - Solo name y description
-# @name getLiveProgramMinimal
-GET {{baseUrl}}/api/stations/{{stationId}}/programs/live/minimal
-
-### 2. Get Live Program - MINIMAL (Specific Date/Time)
-# @name getLiveProgramMinimalAtTime
-GET {{baseUrl}}/api/stations/{{stationId}}/programs/live/minimal?date=2026-02-14T21:35:00
-
-### 3. Get Live Program - FULL (Current) - Información completa
-# @name getLiveProgram
-GET {{baseUrl}}/api/stations/{{stationId}}/programs/live
-
-### 4. Get Live Program - FULL (Specific Date/Time)
-# @name getLiveProgramAtTime
-GET {{baseUrl}}/api/stations/{{stationId}}/programs/live?date=2026-02-14T21:35:00
-
-### ========================================
 ### PROGRAM ENDPOINTS (PROTECTED)
 ### ========================================
 
 ### 5. Create Program
-# @name createProgram
 POST {{baseUrl}}/api/stations/{{stationId}}/programs
 Authorization: Bearer {{token}}
 Content-Type: application/json

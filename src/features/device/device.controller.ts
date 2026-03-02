@@ -4,10 +4,6 @@ import { deviceService, SendNotificationDto } from './device.service';
 import { AppError } from '../../middleware/errorHandler';
 
 export class DeviceController {
-  /**
-   * POST /api/devices/:stationId
-   * Crea un nuevo dispositivo para la estación.
-   */
   async createDevice(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const stationId = req.params.stationId as string;
@@ -23,16 +19,6 @@ export class DeviceController {
     }
   }
 
-  /**
-   * POST /api/devices/:stationId/notify
-   * Envía una notificación push a TODOS los dispositivos de la estación.
-   *
-   * Body:
-   *  - title  (string, obligatorio)
-   *  - body   (string, obligatorio)
-   *  - image  (string, opcional)
-   *  - data   (Record<string,string>, opcional)
-   */
   async sendNotification(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const stationId = req.params.stationId as string;

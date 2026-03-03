@@ -16,9 +16,15 @@ app.use(express.urlencoded({ extended: true }));
 
 // Health check
 app.get('/health', (req, res) => {
+  const dbUrl = process.env.DATABASE_URL;
   res.status(200).json({
     status: 'success',
     message: 'API is running',
+    debug: {
+      hasDbUrl: !!dbUrl,
+      dbUrlPreview: dbUrl ? dbUrl.substring(0, 30) + '...' : 'NOT SET',
+      nodeEnv: process.env.NODE_ENV,
+    },
   });
 });
 

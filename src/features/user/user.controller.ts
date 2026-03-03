@@ -10,7 +10,7 @@ export class UserController {
       if (!email || !password) {
         return res.status(400).json({
           status: 'error',
-          message: 'Email and password are required',
+          message: 'Email y contraseña son requeridos',
         });
       }
 
@@ -30,7 +30,7 @@ export class UserController {
       if (!req.user) {
         return res.status(401).json({
           status: 'error',
-          message: 'Unauthorized',
+          message: 'No autorizado',
         });
       }
 
@@ -50,7 +50,7 @@ export class UserController {
       if (!req.user) {
         return res.status(401).json({
           status: 'error',
-          message: 'Unauthorized',
+          message: 'No autorizado',
         });
       }
 
@@ -59,28 +59,28 @@ export class UserController {
       if (!currentPassword || !newPassword) {
         return res.status(400).json({
           status: 'error',
-          message: 'Current password and new password are required',
+          message: 'Contraseña actual y nueva contraseña son requeridas',
         });
       }
 
       if (typeof currentPassword !== 'string' || typeof newPassword !== 'string') {
         return res.status(400).json({
           status: 'error',
-          message: 'Current password and new password must be strings',
+          message: 'La contraseña actual y la nueva contraseña deben ser cadenas de texto',
         });
       }
 
       if (newPassword.length < 6) {
         return res.status(400).json({
           status: 'error',
-          message: 'New password must be at least 6 characters long',
+          message: 'La nueva contraseña debe tener al menos 6 caracteres',
         });
       }
 
       if (currentPassword === newPassword) {
         return res.status(400).json({
           status: 'error',
-          message: 'New password must be different from current password',
+          message: 'La nueva contraseña debe ser diferente de la contraseña actual',
         });
       }
 

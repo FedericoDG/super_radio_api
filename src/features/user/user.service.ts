@@ -28,13 +28,13 @@ export class UserService {
     });
 
     if (!user) {
-      throw new AppError('Invalid credentials', 401);
+      throw new AppError('Credenciales inválidas', 401);
     }
 
     const isPasswordValid = await bcrypt.compare(data.password, user.password);
 
     if (!isPasswordValid) {
-      throw new AppError('Invalid credentials', 401);
+      throw new AppError('Credenciales inválidas', 401);
     }
 
     const token = this.generateToken(user.id, user.email);
@@ -62,7 +62,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new AppError('User not found', 404);
+      throw new AppError('Usuario no encontrado', 404);
     }
 
     return user;
@@ -84,7 +84,7 @@ export class UserService {
     const isCurrentPasswordValid = await bcrypt.compare(data.currentPassword, user.password);
 
     if (!isCurrentPasswordValid) {
-      throw new AppError('Current password is incorrect', 401);
+      throw new AppError('La contraseña actual es incorrecta', 401);
     }
 
     const hashedPassword = await bcrypt.hash(data.newPassword, 12);
@@ -97,7 +97,7 @@ export class UserService {
     });
 
     return {
-      message: 'Password updated successfully. Please login again.',
+      message: 'Contraseña actualizada correctamente. Por favor, inicie sesión nuevamente.',
     };
   }
 

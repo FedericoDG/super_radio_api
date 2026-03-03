@@ -37,3 +37,4 @@ firebase-service-account.json
 *.http
 *.seed.ts
 pgadmin/
+prisma/seeds/

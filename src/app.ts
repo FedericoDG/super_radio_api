@@ -9,7 +9,7 @@ import deviceRoutes from './features/device/device.routes';
 
 const app: Application = express();
 
-// Middleware
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

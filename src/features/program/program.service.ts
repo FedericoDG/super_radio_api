@@ -108,7 +108,7 @@ export class ProgramService {
     // Verificar si tiene schedules asociados
     if (program.schedules.length > 0) {
       throw new AppError(
-        'No se puede eliminar el programa porque tiene schedules asociados. Eliminalo primero de la programación.',
+        'No se puede eliminar el programa porque tiene programación asociada. Elimínalo primero de la programación.',
         400
       );
     }

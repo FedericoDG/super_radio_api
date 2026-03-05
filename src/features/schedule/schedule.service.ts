@@ -25,7 +25,7 @@ export class ScheduleService {
   private async verifyStation(stationId: string) {
     const station = await prisma.station.findUnique({ where: { id: stationId } });
     if (!station) {
-      throw new AppError('Station not found', 404);
+      throw new AppError('Estación no encontrada', 404);
     }
     return station;
   }
@@ -39,18 +39,18 @@ export class ScheduleService {
     });
 
     if (!program || program.stationId !== data.stationId) {
-      throw new AppError('Program not found in this station', 404);
+      throw new AppError('Programa no encontrado en esta estación', 404);
     }
 
     // Validar día de la semana
     if (data.dayOfWeek < 0 || data.dayOfWeek > 6) {
-      throw new AppError('Day of week must be between 0 (Sunday) and 6 (Saturday)', 400);
+      throw new AppError('El día de la semana debe estar entre 0 (domingo) y 6 (sábado)', 400);
     }
 
     // Validar formato de hora
     const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
     if (!timeRegex.test(data.startTime) || !timeRegex.test(data.endTime)) {
-      throw new AppError('Time must be in HH:MM format', 400);
+      throw new AppError('La hora debe estar en formato HH:MM', 400);
     }
 
     const schedule = await prisma.schedule.create({
@@ -102,7 +102,7 @@ export class ScheduleService {
     });
 
     if (!schedule || schedule.program.stationId !== stationId) {
-      throw new AppError('Schedule not found', 404);
+      throw new AppError('Programación no encontrada', 404);
     }
 
     return {
@@ -124,7 +124,7 @@ export class ScheduleService {
     });
 
     if (!schedule || schedule.program.stationId !== stationId) {
-      throw new AppError('Schedule not found', 404);
+      throw new AppError('Programación no encontrada', 404);
     }
 
     // Validar programa si se proporciona — debe pertenecer a la misma station
@@ -134,22 +134,22 @@ export class ScheduleService {
       });
 
       if (!program || program.stationId !== stationId) {
-        throw new AppError('Program not found in this station', 404);
+        throw new AppError('Programa no encontrado en esta estación', 404);
       }
     }
 
     // Validar día de la semana si se proporciona
     if (data.dayOfWeek !== undefined && (data.dayOfWeek < 0 || data.dayOfWeek > 6)) {
-      throw new AppError('Day of week must be between 0 (Sunday) and 6 (Saturday)', 400);
+      throw new AppError('El día de la semana debe estar entre 0 (domingo) y 6 (sábado)', 400);
     }
 
     // Validar formato de hora si se proporciona
     const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
     if (data.startTime && !timeRegex.test(data.startTime)) {
-      throw new AppError('Start time must be in HH:MM format', 400);
+      throw new AppError('La hora de inicio debe estar en formato HH:MM', 400);
     }
     if (data.endTime && !timeRegex.test(data.endTime)) {
-      throw new AppError('End time must be in HH:MM format', 400);
+      throw new AppError('La hora de fin debe estar en formato HH:MM', 400);
     }
 
     const updatedSchedule = await prisma.schedule.update({
@@ -177,7 +177,7 @@ export class ScheduleService {
       },
     });
 
-    return { message: `${count} schedule(s) deleted successfully`, count };
+    return { message: `${count} programación(es) eliminada(s) exitosamente`, count };
   }
 
   async deleteSchedule(stationId: string, id: string) {
@@ -189,12 +189,12 @@ export class ScheduleService {
     });
 
     if (!schedule || schedule.program.stationId !== stationId) {
-      throw new AppError('Schedule not found', 404);
+      throw new AppError('Programación no encontrada', 404);
     }
 
     await prisma.schedule.delete({ where: { id } });
 
-    return { message: 'Schedule deleted successfully' };
+    return { message: 'Programación eliminada exitosamente' };
   }
 
   async getWeeklySchedule(stationId: string) {

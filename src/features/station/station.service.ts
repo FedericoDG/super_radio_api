@@ -37,7 +37,7 @@ export class StationService {
     });
 
     if (!station) {
-      throw new AppError('Station not found', 404);
+      throw new AppError('Estación no encontrada', 404);
     }
 
     // Construir la programación semanal
@@ -72,7 +72,7 @@ export class StationService {
       // Validar que dayOfWeek esté en el rango válido (0-6)
       if (s.dayOfWeek < 0 || s.dayOfWeek > 6) {
         console.warn(
-          `⚠️  Schedule con dayOfWeek inválido: ${s.dayOfWeek} para programa ${s.program.name}`
+          `⚠️  Programación con dayOfWeek inválido: ${s.dayOfWeek} para programa ${s.program.name}`
         );
         return;
       }
@@ -148,7 +148,7 @@ export class StationService {
     });
 
     if (!station) {
-      throw new AppError('Station not found', 404);
+      throw new AppError('Estación no encontrada', 404);
     }
 
     const updatedStation = await prisma.station.update({

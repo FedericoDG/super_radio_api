@@ -20,7 +20,7 @@ export class DeviceService {
     });
 
     if (device) {
-      throw new AppError('Device with this FCM token already exists', 400);
+      throw new AppError('El dispositivo con este token FCM ya existe', 400);
     }
 
     const newDevice = await prisma.device.create({
@@ -42,7 +42,7 @@ export class DeviceService {
     console.log({ devices });
 
     if (devices.length === 0) {
-      throw new AppError('No devices found for this station', 404);
+      throw new AppError('No se encontraron dispositivos para esta estación', 404);
     }
 
     const tokens = devices.map((d) => d.fcmToken);

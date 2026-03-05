@@ -16,7 +16,7 @@ export class ProgramService {
   private async verifyStation(stationId: string) {
     const station = await prisma.station.findUnique({ where: { id: stationId } });
     if (!station) {
-      throw new AppError('Station not found', 404);
+      throw new AppError('Estación no encontrada', 404);
     }
     return station;
   }
@@ -64,7 +64,7 @@ export class ProgramService {
     });
 
     if (!program || program.stationId !== stationId) {
-      throw new AppError('Program not found', 404);
+      throw new AppError('Programa no encontrado', 404);
     }
 
     return program;
@@ -76,7 +76,7 @@ export class ProgramService {
     const program = await prisma.program.findUnique({ where: { id } });
 
     if (!program || program.stationId !== stationId) {
-      throw new AppError('Program not found', 404);
+      throw new AppError('Programa no encontrado', 404);
     }
 
     const updatedProgram = await prisma.program.update({
@@ -102,20 +102,20 @@ export class ProgramService {
     });
 
     if (!program || program.stationId !== stationId) {
-      throw new AppError('Program not found', 404);
+      throw new AppError('Programa no encontrado', 404);
     }
 
     // Verificar si tiene schedules asociados
     if (program.schedules.length > 0) {
       throw new AppError(
-        'Cannot delete program with associated schedules. Delete schedules first.',
+        'No se puede eliminar el programa porque tiene schedules asociados. Eliminalo primero de la programación.',
         400
       );
     }
 
     await prisma.program.delete({ where: { id } });
 
-    return { message: 'Program deleted successfully' };
+    return { message: 'Programa eliminado exitosamente' };
   }
 }
 

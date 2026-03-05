@@ -78,7 +78,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new AppError('User not found', 404);
+      throw new AppError('Usuario no encontrado', 404);
     }
 
     const isCurrentPasswordValid = await bcrypt.compare(data.currentPassword, user.password);
